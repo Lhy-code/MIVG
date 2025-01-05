@@ -105,7 +105,7 @@ s0.v = [0, -0.2, 0, 0, 0, 0]  # Set velocity for s0
 
 ### 3. Obstacle Distribution and Speed Settings
 Completely random distributions of obstacles and velocity directions may lead to self-interference or collisions with the robot's fixed base. In the `Compare.py` file, obstacles are spaced apart and assigned varying directions and speeds to minimize such issues.
-![alt text](pictures/Velocity.svg)
+
 ### 4. Using Different Robot Models
 You can implement DMVG with other robot models by redefining the `Panda` class. Import the new robot class and instantiate it in the algorithm file:
 ```python
