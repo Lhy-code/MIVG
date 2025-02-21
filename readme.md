@@ -17,7 +17,7 @@ MIVG is a novel algorithm designed to enhance obstacle avoidance and motion cont
 
 ## Example
 
-### Motion Control with DMVG
+### Motion Control with MIVG
 Below is an example image of MIVG guiding a robot through a complex environment with multiple moving obstacles:
 
 ![alt text](gif/four_ob.gif)
@@ -28,7 +28,7 @@ Below is an example image of MIVG guiding a robot through a complex environment 
 
 ### 1. Clone the Repository
 ```bash
-git clone https://github.com/Lhy-code/DMVG.git
+git clone https://github.com/Lhy-code/MIVG.git
 ```
 
 ### 2. Install Required Packages
@@ -44,9 +44,9 @@ pip install roboticstoolbox-python swift-simulator spatialmath spatialgeometry
 ```
 
 ### 3. Run the Simulation
-Navigate to the folder containing the `Panda-DMVG.py` file and execute it:
+Navigate to the folder containing the `Panda-MIVG.py` file and execute it:
 ```bash
-python Panda-DMVG.py
+python Panda-MIVG.py
 ```
 
 ---
@@ -71,7 +71,7 @@ This work builds upon the NEO algorithm. If you find this repository helpful, pl
 
 ## Algorithm Comparison
 
-To compare DMVG with other algorithms, use the `Compare.py` script. Add the corresponding `step` functions for each algorithm in the `algorithm` list. You can simulate different success rates by calling the respective robot models and algorithms.
+To compare MIVG with other algorithms, use the `Compare.py` script. Add the corresponding `step` functions for each algorithm in the `algorithm` list. You can simulate different success rates by calling the respective robot models and algorithms.
 
 ---
 
