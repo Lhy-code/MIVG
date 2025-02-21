@@ -2,7 +2,7 @@
 
 # MIVG: Mode- Isolated Velocity-Guide Algorithm
 
-MIVG is a novel algorithm designed to enhance obstacle avoidance and motion control for robotic manipulators. By dynamically adjusting the velocity guidance and isolating target-driven and obstacle-avoidance tasks, DMVG achieves superior performance in complex environments compared to traditional methods.
+MIVG is a novel algorithm designed to enhance obstacle avoidance and motion control for robotic manipulators. By dynamically adjusting the velocity guidance and isolating target-driven and obstacle-avoidance tasks, MIVG achieves superior performance in complex environments compared to traditional methods.
 
 
 ![alt text](pictures/Exhibition.svg)
