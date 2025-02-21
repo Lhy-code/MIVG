@@ -334,7 +334,7 @@ def step_Baseline(panda):
     return arrived
 
 
-def step_DMVG(panda):
+def step_MIVG(panda):
 
     global env, Tep, collisions, v_max, v_min
 
@@ -438,13 +438,13 @@ def step_DMVG(panda):
     return arrived
 
 
-panda_DMVG= Panda_guide()       # Panda Model for DMVG Algorithm
+panda_MIVG= Panda_guide()       # Panda Model for MIVG Algorithm
 panda_default = rtb.models.Panda()  # Panda Model for Baseline Algorithm
 
 
 algorithms = [
     {"name": "Baseline Algorithm", "panda": panda_default, "step": step_Baseline},
-    {"name": "DMVG Algorithm", "panda": panda_DMVG, "step": step_DMVG},
+    {"name": "DMVG Algorithm", "panda": panda_MIVG, "step": step_MIVG},
 ]
 
 # 示例运行
