@@ -4,7 +4,7 @@ import roboticstoolbox as rtb
 import spatialmath as sm  
 import numpy as np  
 import qpsolvers as qp  
-from Panda_DMVG import Panda_guide  
+from Panda_MIVG import Panda_guide  
 
 # Define velocity range for obstacles
 v_max = -0.2  
