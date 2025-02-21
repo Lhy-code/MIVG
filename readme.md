@@ -1,15 +1,15 @@
 
 
-# DMVG: Dynamic Motion Velocity Guidance
+# MIVG: Mode- Isolated Velocity-Guide Algorithm
 
-DMVG is a novel algorithm designed to enhance obstacle avoidance and motion control for robotic manipulators. By dynamically adjusting the velocity guidance and isolating target-driven and obstacle-avoidance tasks, DMVG achieves superior performance in complex environments compared to traditional methods.
+MIVG is a novel algorithm designed to enhance obstacle avoidance and motion control for robotic manipulators. By dynamically adjusting the velocity guidance and isolating target-driven and obstacle-avoidance tasks, DMVG achieves superior performance in complex environments compared to traditional methods.
 
 
 ![alt text](pictures/Exhibition.svg)
 ---
 
 ## Features
-- **Dynamic Guidance**: DMVG uses a dynamically adjustable velocity-guidance potential field to guide robots around obstacles efficiently.
+- **Dynamic Guidance**: MIVG uses a dynamically adjustable velocity-guidance potential field to guide robots around obstacles efficiently.
 - **Dual-Mode Control**: Combines a target-driven mode with a bypass mode for conflict-free execution.
 - **Robust Performance**: Achieves high success rates across varying environments and obstacle configurations.
 
@@ -18,7 +18,7 @@ DMVG is a novel algorithm designed to enhance obstacle avoidance and motion cont
 ## Example
 
 ### Motion Control with DMVG
-Below is an example image of DMVG guiding a robot through a complex environment with multiple moving obstacles:
+Below is an example image of MIVG guiding a robot through a complex environment with multiple moving obstacles:
 
 ![alt text](gif/four_ob.gif)
 
@@ -76,9 +76,9 @@ To compare DMVG with other algorithms, use the `Compare.py` script. Add the corr
 ---
 
 ## Comparison Videos
-- **Dynamic Obstacle Avoidance**: Watch DMVG guide a robotic arm through a scenario with dynamic obstacles.
-- **Distance-Based Visualization**: Use the `DMVG-distance` file to visualize distance changes dynamically.
-- **Dynamic Plot Animations**: Visualize DMVG's performance through animations generated during simulation.
+- **Dynamic Obstacle Avoidance**: Watch MIVG guide a robotic arm through a scenario with dynamic obstacles.
+- **Distance-Based Visualization**: Use the `MIVG-distance` file to visualize distance changes dynamically.
+- **Dynamic Plot Animations**: Visualize MIVG's performance through animations generated during simulation.
 
 ---
 
@@ -107,7 +107,7 @@ s0.v = [0, -0.2, 0, 0, 0, 0]  # Set velocity for s0
 Completely random distributions of obstacles and velocity directions may lead to self-interference or collisions with the robot's fixed base. In the `Compare.py` file, obstacles are spaced apart and assigned varying directions and speeds to minimize such issues.
 
 ### 4. Using Different Robot Models
-You can implement DMVG with other robot models by redefining the `Panda` class. Import the new robot class and instantiate it in the algorithm file:
+You can implement MIVG with other robot models by redefining the `Panda` class. Import the new robot class and instantiate it in the algorithm file:
 ```python
 from Panda_Diff import Panda_diff
 panda = Panda_diff()
