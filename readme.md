@@ -13,6 +13,7 @@ MIVG is a novel algorithm designed to enhance obstacle avoidance and motion cont
 - **Dual-Mode Control**: Combines a target-driven mode with a bypass mode for conflict-free execution.
 - **Robust Performance**: Achieves high success rates across varying environments and obstacle configurations.
 
+![alt text](pictures/diagram.svg)
 ---
 
 ## Example
