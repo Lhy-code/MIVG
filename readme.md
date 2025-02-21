@@ -81,6 +81,7 @@ To compare MIVG with other algorithms, use the `Compare.py` script. Add the corr
 - **Distance-Based Visualization**: Use the `MIVG-distance` file to visualize distance changes dynamically.
 - **Dynamic Plot Animations**: Visualize MIVG's performance through animations generated during simulation.
 
+![alt text](gif/Compare.gif)
 ---
 
 ## FAQ
