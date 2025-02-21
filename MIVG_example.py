@@ -51,7 +51,7 @@ Tep = panda.fkine(panda.q)
 Tep.A[:3, 3] = target.T[:3, -1]
 
 
-def step_DMVG():
+def step_MIVG():
     """Compute control step for the robot."""
     global env, Tep, collisions, v_max, v_min
 
@@ -156,8 +156,8 @@ def step_DMVG():
 def run():
     arrived = False
     while not arrived:
-        arrived = step_DMVG()
+        arrived = step_MIVG()
 
 
-step_DMVG()  
+step_MIVG()  
 run()  
