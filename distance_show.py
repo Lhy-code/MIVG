@@ -4,7 +4,7 @@ import spatialmath as sm  # For transformations and coordinate handling
 import roboticstoolbox as rtb  # For robot modeling and control
 import numpy as np  # For numerical operations
 import qpsolvers as qp  # For solving QP problems
-from Panda_guide import Panda_guide  # Custom Panda robot class
+from Panda_MIVG import Panda_MIVG  # Custom Panda robot class
 import matplotlib.pyplot as plt
 
 # Initialize simulation environment
@@ -12,7 +12,7 @@ env = swift.Swift()
 env.launch()
 
 # Create Panda robot and set initial joint angles
-panda = Panda_guide()
+panda = Panda_MIVG()
 panda.q = panda.qr
 
 # Robot configuration and parameters
@@ -78,7 +78,7 @@ ax1.set_xlim(0, max(adjusted_time_steps))
 ax1.set_ylim(0, 0.3)  # For obstacle distances
 ax2.set_ylim(0, 0.5)  # For target distances
 
-def step_lead():
+def step_MIVG():
     global Tep, end_effector_distances, obstacle_distances
 
     # Calculate robot and target positions
@@ -167,7 +167,7 @@ def update_plot():
 def run():
     arrived = False
     while len(end_effector_distances) < 1201 and not arrived:
-        arrived = step_lead()
+        arrived = step_MIVG()
         update_plot()
     print("Target reached or simulation completed.")
 
