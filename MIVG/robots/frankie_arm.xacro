@@ -1,0 +1,379 @@
+<!-- 该XML文件是Panda机械臂的机器人描述文件，采用xacro宏定义。 -->
+<!-- 主要描述了Panda机械臂的物理结构、关节类型、运动限制、碰撞几何体等。 -->
+
+<!-- 定义一个名为panda_arm的xacro宏，用于生成Panda机械臂的模型。 -->
+<!-- 参数包括机械臂的命名空间、连接方式、位置信息以及安全距离等。 -->
+
+<!-- 定义基座部分Base，包含基座的多个部分以及其间的关节。 -->
+<!-- 基座由多个连杆和关节构成，其中包括一个旋转关节和一个滑动关节，用于支撑和调整机械臂的位置。 -->
+
+<!-- 定义机械臂的各个关节和连杆Link，从link0到link8，共包含8个主要连杆和8个关节。 -->
+<!-- 每个连杆定义了其视觉模型和碰撞几何体；每个关节定义了类型、运动轴、运动限制及安全控制器等信息。 -->
+
+<!-- 机械臂的关节大多为旋转关节（revolute），允许机械臂围绕某一轴旋转。 -->
+<!-- 关节还定义了软限位、运动速度、最大力矩等，确保运动范围和速度安全可控。 -->
+
+<!-- 碰撞几何体用圆柱体和球体模拟各个连杆，用于物理仿真和碰撞检测。 -->
+<!-- 安全距离参数可调整碰撞几何体的尺寸，增加模型的碰撞检测范围。 -->
+
+<!-- 最后一节连杆（link8）作为机械臂的末端，用于与末端执行器或工具连接。 -->
+<!-- 固定关节用于将末端连接到link7，确保稳定性。 -->
+
+<!-- 该代码的整体目的是通过模块化的描述方式生成Panda机械臂的完整模型， -->
+<!-- 可用于物理仿真、运动规划、机器人控制等应用场景。 -->
+
+
+<?xml version='1.0' encoding='utf-8'?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="panda">
+  <!-- safety_distance: Minimum safety distance in [m] by which the collision volumes are expanded and which is enforced during robot motions -->
+  <!-- arm_id: Namespace of the panda arm. Serves to differentiate between arms in case of multiple instances. -->
+  <xacro:macro name="panda_arm" params="arm_id:='panda' description_pkg:='franka_description' connected_to:='' xyz:='0 0 0' rpy:='0 0 0' safety_distance:=0">
+    <xacro:unless value="${not connected_to}">
+      <joint name="${arm_id}_joint_${connected_to}" type="fixed">
+        <parent link="${connected_to}"/>
+        <child link="${arm_id}_base0"/>
+        <origin rpy="${rpy}" xyz="${xyz}"/>
+      </joint>
+    </xacro:unless>
+  <!-- 这里定义了基座加上机械臂，所以对于前面的代码不含基座应该去掉前两个关节 -->
+    <link name="${arm_id}_base0"> 
+    </link>
+    <link name="${arm_id}_base1">
+    </link>
+    <link name="${arm_id}_base_arm">
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <mesh filename="package://${description_pkg}/meshes/visual/omron.dae"/>
+        </geometry>
+      </visual>
+      <collision>
+        <origin xyz="0 0 0.19" rpy="0 0 0"/>
+        <geometry>
+          <box size="0.68 0.47 0.38" />
+        </geometry>
+      </collision>
+    </link>
+    <joint name="${arm_id}_base_joint1" type="revolute">
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <parent link="${arm_id}_base0"/>
+      <child link="${arm_id}_base1"/>
+      <axis xyz="0 0 1"/>
+      <limit effort="87" lower="-999999" upper="999999" velocity="4.0"/>
+    </joint>
+    <joint name="${arm_id}_base_joint2" type="prismatic">
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <parent link="${arm_id}_base1"/>
+      <child link="${arm_id}_base_arm"/>
+      <axis xyz="1 0 0"/>
+      <limit effort="87" lower="-999999" upper="999999" velocity="4.0"/>
+    </joint>
+    <joint name="${arm_id}_base_arm_joint" type="fixed">
+      <origin rpy="0 0 0" xyz="0.15 0 0.38"/>
+      <parent link="${arm_id}_base_arm"/>
+      <child link="${arm_id}_link0"/>
+    </joint>
+
+    <link name="${arm_id}_link0">
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <mesh filename="package://${description_pkg}/meshes/visual/link0.dae"/>
+        </geometry>
+      </visual>
+      <!-- <collision>
+        <origin xyz="-0.075 0 0.06" rpy="0 ${pi/2} 0"/>
+        <geometry>
+          <cylinder radius="${0.06+safety_distance}" length="0.03" />
+        </geometry>
+      </collision>
+      <collision>
+        <origin xyz="-0.06 0 0.06" rpy="0 0 0"/>
+        <geometry>
+          <sphere radius="${0.06+safety_distance}" />
+        </geometry>
+      </collision>
+      <collision>
+        <origin xyz="-0.09 0 0.06" rpy="0 0 0"/>
+        <geometry>
+          <sphere radius="${0.06+safety_distance}" />
+        </geometry>
+      </collision> -->
+    </link>
+    <link name="${arm_id}_link1">
+      <visual>
+        <geometry>
+          <mesh filename="package://${description_pkg}/meshes/visual/link1.dae"/>
+        </geometry>
+      </visual>
+      <collision>
+        <origin xyz="0 0 -0.1915" rpy="0 0 0"/>
+        <geometry>
+          <cylinder radius="${0.06+safety_distance}" length="0.2830" />
+        </geometry>
+      </collision>
+      <collision>
+        <origin xyz="0 0 -0.333" rpy="0 0 0"/>
+        <geometry>
+          <sphere radius="${0.06+safety_distance}" />
+        </geometry>
+      </collision>
+      <collision>
+        <origin xyz="0 0 -0.05" rpy="0 0 0"/>
+        <geometry>
+          <sphere radius="${0.06+safety_distance}" />
+        </geometry>
+      </collision>
+    </link>
+    <joint name="${arm_id}_joint1" type="revolute">
+      <safety_controller k_position="100.0" k_velocity="40.0" soft_lower_limit="-2.8973" soft_upper_limit="2.8973"/>
+      <origin rpy="0 0 0" xyz="0 0 0.333"/>
+      <parent link="${arm_id}_link0"/>
+      <child link="${arm_id}_link1"/>
+      <axis xyz="0 0 1"/>
+      <limit effort="87" lower="-2.8973" upper="2.8973" velocity="2.1750"/>
+    </joint>
+    <link name="${arm_id}_link2">
+      <visual>
+        <geometry>
+          <mesh filename="package://${description_pkg}/meshes/visual/link2.dae"/>
+        </geometry>
+      </visual>
+      <collision>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <cylinder radius="${0.06+safety_distance}" length="0.12" />
+        </geometry>
+      </collision>
+      <collision>
+        <origin xyz="0 0 -0.06" rpy="0 0 0"/>
+        <geometry>
+          <sphere radius="${0.06+safety_distance}" />
+        </geometry>
+      </collision>
+      <collision>
+        <origin xyz="0 0 0.06" rpy="0 0 0"/>
+        <geometry>
+          <sphere radius="${0.06+safety_distance}" />
+        </geometry>
+      </collision>
+    </link>
+    <joint name="${arm_id}_joint2" type="revolute">
+      <safety_controller k_position="100.0" k_velocity="40.0" soft_lower_limit="-1.7628" soft_upper_limit="1.7628"/>
+      <origin rpy="${-pi/2} 0 0" xyz="0 0 0"/>
+      <parent link="${arm_id}_link1"/>
+      <child link="${arm_id}_link2"/>
+      <axis xyz="0 0 1"/>
+      <limit effort="87" lower="-1.7628" upper="1.7628" velocity="2.1750"/>
+    </joint>
+    <link name="${arm_id}_link3">
+      <visual>
+        <geometry>
+          <mesh filename="package://${description_pkg}/meshes/visual/link3.dae"/>
+        </geometry>
+      </visual>
+      <collision>
+        <origin xyz="0 0 -0.145" rpy="0 0 0"/>
+        <geometry>
+          <cylinder radius="${0.06+safety_distance}" length="0.15" />
+        </geometry>
+      </collision>
+      <collision>
+        <origin xyz="0 0 -0.22" rpy="0 0 0"/>
+        <geometry>
+          <sphere radius="${0.06+safety_distance}" />
+        </geometry>
+      </collision>
+      <collision>
+        <origin xyz="0 0 -0.07" rpy="0 0 0"/>
+        <geometry>
+          <sphere radius="${0.06+safety_distance}" />
+        </geometry>
+      </collision>
+    </link>
+    <joint name="${arm_id}_joint3" type="revolute">
+      <safety_controller k_position="100.0" k_velocity="40.0" soft_lower_limit="-2.8973" soft_upper_limit="2.8973"/>
+      <origin rpy="${pi/2} 0 0" xyz="0 -0.316 0"/>
+      <parent link="${arm_id}_link2"/>
+      <child link="${arm_id}_link3"/>
+      <axis xyz="0 0 1"/>
+      <limit effort="87" lower="-2.8973" upper="2.8973" velocity="2.1750"/>
+    </joint>
+    <link name="${arm_id}_link4">
+      <visual>
+        <geometry>
+          <mesh filename="package://${description_pkg}/meshes/visual/link4.dae"/>
+        </geometry>
+      </visual>
+      <collision>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <cylinder radius="${0.06+safety_distance}" length="0.12" />
+        </geometry>
+      </collision>
+      <collision>
+        <origin xyz="0 0 0.06" rpy="0 0 0"/>
+        <geometry>
+          <sphere radius="${0.06+safety_distance}" />
+        </geometry>
+      </collision>
+      <collision>
+        <origin xyz="0 0 -0.06" rpy="0 0 0"/>
+        <geometry>
+          <sphere radius="${0.06+safety_distance}" />
+        </geometry>
+      </collision>
+    </link>
+    <joint name="${arm_id}_joint4" type="revolute">
+      <safety_controller k_position="100.0" k_velocity="40.0" soft_lower_limit="-3.0718" soft_upper_limit="-0.0698"/>
+      <origin rpy="${pi/2} 0 0" xyz="0.0825 0 0"/>
+      <parent link="${arm_id}_link3"/>
+      <child link="${arm_id}_link4"/>
+      <axis xyz="0 0 1"/>
+      <limit effort="87" lower="-3.0718" upper="-0.0698" velocity="2.1750"/>
+    </joint>
+    <link name="${arm_id}_link5">
+      <visual>
+        <geometry>
+          <mesh filename="package://${description_pkg}/meshes/visual/link5.dae"/>
+        </geometry>
+      </visual>
+      <collision>
+        <origin xyz="0 0 -0.26" rpy="0 0 0"/>
+        <geometry>
+          <cylinder radius="${0.06+safety_distance}" length="0.1" />
+        </geometry>
+      </collision>
+      <collision>
+        <origin xyz="0 0 -0.31" rpy="0 0 0"/>
+        <geometry>
+          <sphere radius="${0.06+safety_distance}" />
+        </geometry>
+      </collision>
+      <collision>
+        <origin xyz="0 0 -0.21" rpy="0 0 0"/>
+        <geometry>
+          <sphere radius="${0.06+safety_distance}" />
+        </geometry>
+      </collision>
+      <collision>
+        <origin xyz="0 0.08 -0.13" rpy="0 0 0"/>
+        <geometry>
+          <cylinder radius="${0.025+safety_distance}" length="0.14" />
+        </geometry>
+      </collision>
+      <collision>
+        <origin xyz="0 0.08 -0.06" rpy="0 0 0"/>
+        <geometry>
+          <sphere radius="${0.025+safety_distance}" />
+        </geometry>
+      </collision>
+      <collision>
+        <origin xyz="0 0.08 -0.20" rpy="0 0 0"/>
+        <geometry>
+          <sphere radius="${0.025+safety_distance}" />
+        </geometry>
+      </collision>
+
+    </link>
+    <joint name="${arm_id}_joint5" type="revolute">
+      <safety_controller k_position="100.0" k_velocity="40.0" soft_lower_limit="-2.8973" soft_upper_limit="2.8973"/>
+      <origin rpy="${-pi/2} 0 0" xyz="-0.0825 0.384 0"/>
+      <parent link="${arm_id}_link4"/>
+      <child link="${arm_id}_link5"/>
+      <axis xyz="0 0 1"/>
+      <limit effort="12" lower="-2.8973" upper="2.8973" velocity="2.6100"/>
+    </joint>
+    <link name="${arm_id}_link6">
+      <visual>
+        <geometry>
+          <mesh filename="package://${description_pkg}/meshes/visual/link6.dae"/>
+        </geometry>
+      </visual>
+      <collision>
+        <origin xyz="0 0 -0.03" rpy="0 0 0"/>
+        <geometry>
+          <cylinder radius="${0.05+safety_distance}" length="0.08" />
+        </geometry>
+      </collision>
+      <collision>
+        <origin xyz="0 0 0.01" rpy="0 0 0"/>
+        <geometry>
+          <sphere radius="${0.05+safety_distance}" />
+        </geometry>
+      </collision>
+      <collision>
+        <origin xyz="0 0 -0.07" rpy="0 0 0"/>
+        <geometry>
+          <sphere radius="${0.05+safety_distance}" />
+        </geometry>
+      </collision>
+    </link>
+    <joint name="${arm_id}_joint6" type="revolute">
+      <safety_controller k_position="100.0" k_velocity="40.0" soft_lower_limit="-0.0175" soft_upper_limit="3.7525"/>
+      <origin rpy="${pi/2} 0 0" xyz="0 0 0"/>
+      <parent link="${arm_id}_link5"/>
+      <child link="${arm_id}_link6"/>
+      <axis xyz="0 0 1"/>
+      <limit effort="12" lower="-0.0175" upper="3.7525" velocity="2.6100"/>
+    </joint>
+    <link name="${arm_id}_link7">
+      <visual>
+        <geometry>
+          <mesh filename="package://${description_pkg}/meshes/visual/link7.dae"/>
+        </geometry>
+      </visual>
+      <collision>
+        <origin xyz="0 0 0.01" rpy="0 0 0"/>
+        <geometry>
+          <cylinder radius="${0.04+safety_distance}" length="0.14" />
+        </geometry>
+      </collision>
+      <collision>
+        <origin xyz="0 0 0.08" rpy="0 0 0"/>
+        <geometry>
+          <sphere radius="${0.025+safety_distance}"  />
+        </geometry>
+      </collision>
+      <collision>
+        <origin xyz="0 0 -0.06" rpy="0 0 0"/>
+        <geometry>
+          <sphere radius="${0.04+safety_distance}"  />
+        </geometry>
+      </collision>
+    </link>
+    <joint name="${arm_id}_joint7" type="revolute">
+      <safety_controller k_position="100.0" k_velocity="40.0" soft_lower_limit="-2.8973" soft_upper_limit="2.8973"/>
+      <origin rpy="${pi/2} 0 0" xyz="0.088 0 0"/>
+      <parent link="${arm_id}_link6"/>
+      <child link="${arm_id}_link7"/>
+      <axis xyz="0 0 1"/>
+      <limit effort="12" lower="-2.8973" upper="2.8973" velocity="2.6100"/>
+    </joint>
+    <link name="${arm_id}_link8">
+      <collision>
+        <origin xyz="0.0424 0.0424 -0.0250" rpy="${pi} ${pi/2} ${pi/2}"/>
+        <geometry>
+          <cylinder radius="${0.03+safety_distance}"  length="0.01" />
+        </geometry>
+      </collision>
+      <collision>
+        <origin xyz="0.0424 0.0424 -0.02" rpy="0 0 0"/>
+        <geometry>
+          <sphere radius="${0.03+safety_distance}"  />
+        </geometry>
+      </collision>
+      <collision>
+        <origin xyz="0.0424 0.0424 -0.03" rpy="0 0 0"/>
+        <geometry>
+          <sphere radius="${0.03+safety_distance}"  />
+        </geometry>
+      </collision>
+    </link>
+    <joint name="${arm_id}_joint8" type="fixed">
+      <origin rpy="0 0 0" xyz="0 0 0.107"/>
+      <parent link="${arm_id}_link7"/>
+      <child link="${arm_id}_link8"/>
+    </joint>
+  </xacro:macro>
+</robot>
